@@ -25,10 +25,27 @@ function ControlsCard({ sx, data, setProfileSettings }) {
           sx={{ display: 'flex', gap: '30px', marginBottom: '20px' }}
           noValidate
           autoComplete="off">
-          <TextField id="outlined-basic" defaultValue={data.name} label="Имя" variant="outlined" />
+          <TextField
+            id="outlined-basic"
+            value={data.name}
+            onChange={(event) => {
+              setProfileSettings((prev) => ({
+                ...prev,
+                name: event.target.value,
+              }));
+            }}
+            label="Имя"
+            variant="outlined"
+          />
           <TextField
             id="filled-basic"
-            defaultValue={data.surname}
+            value={data.surname}
+            onChange={(event) => {
+              setProfileSettings((prev) => ({
+                ...prev,
+                surname: event.target.value,
+              }));
+            }}
             label="Фамилия"
             variant="filled"
           />
@@ -41,7 +58,17 @@ function ControlsCard({ sx, data, setProfileSettings }) {
         />
         <Box sx={{ width: 300 }}>
           <span>Размер аватара: {data.avatarSize}px</span>
-          <Slider defaultValue={data.avatarSize} aria-label="Default" valueLabelDisplay="auto" />
+          <Slider
+            value={data.avatarSize}
+            onChange={(event) => {
+              setProfileSettings((prev) => ({
+                ...prev,
+                avatarSize: event.target.value,
+              }));
+            }}
+            aria-label="Default"
+            valueLabelDisplay="auto"
+          />
         </Box>
         <FormControl>
           <RadioGroup
@@ -71,14 +98,17 @@ function ControlsCard({ sx, data, setProfileSettings }) {
         </FormControl>
         <FormGroup>
           <FormControlLabel
-            value={data.isOnline}
-            onChange={(event) => {
-              setProfileSettings((prev) => ({
-                ...prev,
-                isOnline: event.target.value,
-              }));
-            }}
-            control={<Switch />}
+            control={
+              <Switch
+                checked={data.isOnline}
+                onChange={(event) => {
+                  setProfileSettings((prev) => ({
+                    ...prev,
+                    isOnline: event.target.checked,
+                  }));
+                }}
+              />
+            }
             label="Онлайн статус"
           />
           <FormControlLabel control={<Switch />} label="Показать Alert" />
