@@ -18,10 +18,10 @@ function ProfilePlayground() {
       <Stack
         direction="row"
         spacing={0}
-        sx={{ width: 'calc(100vw - 60px)', mx: '30px', gap: '30px' }}
-      >
+        sx={{ width: 'calc(100vw - 60px)', mx: '30px', gap: '30px' }}>
         <PreviewCard data={profileSettings} sx={{ flex: 1, minWidth: 0 }} />
         <ControlsCard
+          data={profileSettings}
           setProfileSettings={setProfileSettings}
           sx={{ flex: 1, minWidth: 0 }}
         />

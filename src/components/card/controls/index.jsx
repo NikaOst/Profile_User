@@ -15,7 +15,7 @@ import FormLabel from '@mui/material/FormLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Switch from '@mui/material/Switch';
 
-function ControlsCard({ sx }) {
+function ControlsCard({ sx, data, setProfileSettings }) {
   const positions = ['💻 Разработчик', '🎨 Дизайнер', '📊 Менеджер', '📈 Аналитик'];
   return (
     <Card sx={sx}>
@@ -25,8 +25,13 @@ function ControlsCard({ sx }) {
           sx={{ display: 'flex', gap: '30px', marginBottom: '20px' }}
           noValidate
           autoComplete="off">
-          <TextField id="outlined-basic" label="Имя" variant="outlined" />
-          <TextField id="filled-basic" label="Фамилия" variant="filled" />
+          <TextField id="outlined-basic" defaultValue={data.name} label="Имя" variant="outlined" />
+          <TextField
+            id="filled-basic"
+            defaultValue={data.surname}
+            label="Фамилия"
+            variant="filled"
+          />
         </Box>
         <Autocomplete
           disablePortal
@@ -35,14 +40,21 @@ function ControlsCard({ sx }) {
           renderInput={(params) => <TextField {...params} label="Position" />}
         />
         <Box sx={{ width: 300 }}>
-          <span>Размер аватара: </span>
-          <Slider defaultValue={50} aria-label="Default" valueLabelDisplay="auto" />
+          <span>Размер аватара: {data.avatarSize}px</span>
+          <Slider defaultValue={data.avatarSize} aria-label="Default" valueLabelDisplay="auto" />
         </Box>
         <FormControl>
           <RadioGroup
             row
             aria-labelledby="demo-row-radio-buttons-group-label"
-            name="row-radio-buttons-group">
+            name="button-color-radio-group"
+            value={data.buttonColor}
+            onChange={(event) => {
+              setProfileSettings((prev) => ({
+                ...prev,
+                buttonColor: event.target.value,
+              }));
+            }}>
             <FormControlLabel value="primary" control={<Radio />} label="Primary" />
             <FormControlLabel value="secondary" control={<Radio />} label="Secondary" />
             <FormControlLabel value="success" control={<Radio />} label="Success" />
@@ -58,7 +70,17 @@ function ControlsCard({ sx }) {
           </RadioGroup>
         </FormControl>
         <FormGroup>
-          <FormControlLabel control={<Switch />} label="Онлайн статус" />
+          <FormControlLabel
+            value={data.isOnline}
+            onChange={(event) => {
+              setProfileSettings((prev) => ({
+                ...prev,
+                isOnline: event.target.value,
+              }));
+            }}
+            control={<Switch />}
+            label="Онлайн статус"
+          />
           <FormControlLabel control={<Switch />} label="Показать Alert" />
         </FormGroup>
         <FormControl>
