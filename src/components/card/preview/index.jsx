@@ -14,11 +14,11 @@ import Box from '@mui/material/Box';
 // Статус (On/Off), который меняет цвет текста.
 // Кнопки действий ("Написать сообщение", "Предложить работу").
 
-function PreviewCard({ data }) {
+function PreviewCard({ data, sx }) {
   const mainColor = `${data.buttonColor}.main`;
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={sx}>
       <CardHeader
         avatar={
           <Avatar

@@ -1,19 +1,7 @@
 import { useState } from 'react';
-import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
-import { styled } from '@mui/material/styles';
 import PreviewCard from '../card/preview';
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: (theme.vars ?? theme).palette.text.secondary,
-  ...theme.applyStyles('dark', {
-    backgroundColor: '#1A2027',
-  }),
-}));
+import ControlsCard from '../card/controls';
 
 function ProfilePlayground() {
   const [profileSettings, setProfileSettings] = useState({
@@ -27,9 +15,16 @@ function ProfilePlayground() {
   });
   return (
     <div>
-      <Stack direction="row" spacing={0} style={{ width: '90vw', gap: '30px', margin: '0 auto' }}>
-        <PreviewCard data={profileSettings} style={{ width: '50vw', borderRadius: 0 }} />
-        <Item sx={{ width: '50vw', borderRadius: 0 }}>Item 2</Item>
+      <Stack
+        direction="row"
+        spacing={0}
+        sx={{ width: 'calc(100vw - 60px)', mx: '30px', gap: '30px' }}
+      >
+        <PreviewCard data={profileSettings} sx={{ flex: 1, minWidth: 0 }} />
+        <ControlsCard
+          setProfileSettings={setProfileSettings}
+          sx={{ flex: 1, minWidth: 0 }}
+        />
       </Stack>
     </div>
   );
