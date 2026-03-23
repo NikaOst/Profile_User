@@ -1,62 +1,76 @@
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
 import Slider from '@mui/material/Slider';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 import FormGroup from '@mui/material/FormGroup';
-import Switch from '@mui/material/Switch';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import TextFieldComponent from '../../textField';
+import SwitchComponent from '../../switch';
 
-function ControlsCard({ sx, data, setProfileSettings }) {
+function ControlsCard({ data, setProfileSettings }) {
   const positions = ['💻 Разработчик', '🎨 Дизайнер', '📊 Менеджер', '📈 Аналитик'];
+
+  const handleChange = (event) => {
+    setProfileSettings((prev) => ({
+      ...prev,
+      position: event.target.value,
+    }));
+  };
+
   return (
-    <Card sx={sx}>
+    <Card style={{ flex: 1, minWidth: 0 }}>
       <CardContent>
         <Box
           component="form"
-          sx={{ display: 'flex', gap: '30px', marginBottom: '20px' }}
+          style={{ display: 'flex', gap: '30px', marginBottom: '20px' }}
           noValidate
           autoComplete="off">
-          <TextField
-            id="outlined-basic"
-            value={data.name}
-            onChange={(event) => {
-              setProfileSettings((prev) => ({
-                ...prev,
-                name: event.target.value,
-              }));
-            }}
-            label="Имя"
-            variant="outlined"
+          <TextFieldComponent
+            data={data.name}
+            variantStyle="outlined"
+            lab="Имя"
+            fieldName="name"
+            setProfileSettings={setProfileSettings}
+            idName="outlined-basic"
           />
-          <TextField
-            id="filled-basic"
-            value={data.surname}
-            onChange={(event) => {
-              setProfileSettings((prev) => ({
-                ...prev,
-                surname: event.target.value,
-              }));
-            }}
-            label="Фамилия"
-            variant="filled"
+          <TextFieldComponent
+            data={data.surname}
+            variantStyle="filled"
+            lab="Фамилия"
+            fieldName="surname"
+            setProfileSettings={setProfileSettings}
+            idName="filled-basic"
           />
         </Box>
-        <Autocomplete
-          disablePortal
-          options={positions}
-          sx={{ width: 300, marginBottom: '20px' }}
-          renderInput={(params) => <TextField {...params} label="Position" />}
-        />
-        <Box sx={{ width: 300 }}>
+
+        <Box style={{ minWidth: 120 }}>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Position</InputLabel>
+            <Select
+              style={{ width: 300, marginBottom: '20px' }}
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={data.position}
+              label="Position"
+              onChange={handleChange}>
+              {positions.map((el) => {
+                return (
+                  <MenuItem key={el} value={el}>
+                    {el}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        </Box>
+
+        <Box style={{ width: 300 }}>
           <span>Размер аватара: {data.avatarSize}px</span>
           <Slider
             value={data.avatarSize}
@@ -70,6 +84,7 @@ function ControlsCard({ sx, data, setProfileSettings }) {
             valueLabelDisplay="auto"
           />
         </Box>
+
         <FormControl>
           <RadioGroup
             row
@@ -90,36 +105,47 @@ function ControlsCard({ sx, data, setProfileSettings }) {
           <RadioGroup
             row
             aria-labelledby="demo-row-radio-buttons-group-label"
-            name="row-radio-buttons-group">
-            <FormControlLabel value="small" control={<Radio />} label="Small" />
-            <FormControlLabel value="medium" control={<Radio />} label="Medium" />
-            <FormControlLabel value="large" control={<Radio />} label="Large" />
+            name="row-radio-buttons-group"
+            value={data.buttonSize}
+            onChange={(event) => {
+              setProfileSettings((prev) => ({
+                ...prev,
+                buttonSize: event.target.value,
+              }));
+            }}>
+            <FormControlLabel value="10px" control={<Radio />} label="Small" />
+            <FormControlLabel value="20px" control={<Radio />} label="Medium" />
+            <FormControlLabel value="30px" control={<Radio />} label="Large" />
           </RadioGroup>
         </FormControl>
+
         <FormGroup>
           <FormControlLabel
             control={
-              <Switch
-                checked={data.isOnline}
-                onChange={(event) => {
-                  setProfileSettings((prev) => ({
-                    ...prev,
-                    isOnline: event.target.checked,
-                  }));
-                }}
+              <SwitchComponent
+                data={data.isOnline}
+                setProfileSettings={setProfileSettings}
+                fieldName="isOnline"
               />
             }
             label="Онлайн статус"
           />
-          <FormControlLabel control={<Switch />} label="Показать Alert" />
+          <FormControlLabel control={<SwitchComponent />} label="Показать Alert" />
         </FormGroup>
         <FormControl>
           <RadioGroup
             row
             aria-labelledby="demo-row-radio-buttons-group-label"
-            name="row-radio-buttons-group">
-            <FormControlLabel value="shadow" control={<Radio />} label="С тенью" />
-            <FormControlLabel value="outline" control={<Radio />} label="С обводкой" />
+            name="row-radio-buttons-group"
+            value={data.cardVariant}
+            onChange={(event) => {
+              setProfileSettings((prev) => ({
+                ...prev,
+                cardVariant: event.target.value,
+              }));
+            }}>
+            <FormControlLabel value="elevation" control={<Radio />} label="С тенью" />
+            <FormControlLabel value="outlined" control={<Radio />} label="С обводкой" />
           </RadioGroup>
         </FormControl>
       </CardContent>

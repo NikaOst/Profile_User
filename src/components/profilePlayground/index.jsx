@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import Stack from '@mui/material/Stack';
-import PreviewCard from '../card/preview';
-import ControlsCard from '../card/controls';
+import StackComponent from '../stack';
 
 function ProfilePlayground() {
   const [profileSettings, setProfileSettings] = useState({
     name: 'Иван',
     surname: 'Иванов',
     avatarSize: 40,
+    position: '💻 Разработчик',
+    buttonSize: '10px',
     buttonColor: 'primary',
     isOnline: false,
     cardVariant: 'elevation',
@@ -15,17 +15,7 @@ function ProfilePlayground() {
   });
   return (
     <div>
-      <Stack
-        direction="row"
-        spacing={0}
-        sx={{ width: 'calc(100vw - 60px)', mx: '30px', gap: '30px' }}>
-        <PreviewCard data={profileSettings} sx={{ flex: 1, minWidth: 0 }} />
-        <ControlsCard
-          data={profileSettings}
-          setProfileSettings={setProfileSettings}
-          sx={{ flex: 1, minWidth: 0 }}
-        />
-      </Stack>
+      <StackComponent profileSettings={profileSettings} setProfileSettings={setProfileSettings} />
     </div>
   );
 }
