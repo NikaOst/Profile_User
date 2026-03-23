@@ -1,7 +1,12 @@
 import './App.css';
+import ProfilePlayground from './components/profilePlayground';
 
 function App() {
-  return <></>;
+  return (
+    <>
+      <ProfilePlayground />
+    </>
+  );
 }
 
 export default App;
